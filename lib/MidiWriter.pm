@@ -1,7 +1,7 @@
 package MidiWriter;
+
 use strict;
 use warnings;
-
 
 # Export nothing by default 
 our @EXPORT_OK = ();
@@ -35,6 +35,7 @@ use constant {
     TICKS_PER_QUARTER          => 480,
 };
 
+# MidiWriter ctor
 sub new {
     my $class = shift;
     my $self = {
@@ -46,7 +47,7 @@ sub new {
 
 sub add_track {
     my ($self) = @_;
-    my $track = Track->new();
+    my $track = MidiWriter::Track->new();
     push @{$self->{tracks}}, $track;
     return $#{$self->{tracks}};  # index of new track
 }
@@ -169,19 +170,4 @@ sub save {
     print "Saved MIDI file: $filename\n";
 }
 
-
-################################################################################
-# Example usage
-package main;
-my $midi = MidiWriter->new();
-$midi->set_channel(0, 1);
-$midi->add_bpm(0, 0, 120);
-$midi->add_time_signature(0, 0, 4, 4);
-$midi->add_track_name(0, "Perl MIDI Track");
-
-$midi->add_note(0, 0, 0, 480, 60, 100); # middle C, quarter note
-$midi->add_note(0, 0, 480, 480, 62, 100);
-$midi->add_note(0, 0, 960, 480, 64, 100);
-
-$midi->save("test.mid");
-
+1;
